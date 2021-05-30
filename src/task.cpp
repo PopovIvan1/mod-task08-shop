@@ -20,6 +20,13 @@ int factor(int x)
 	return x * factor(x - 1);
 }
 
+double myPow(double x, int n)
+{
+	double res = 1;
+	for (int i = 0; i < n; i++)
+		res = res * x;
+	return res;
+}
 Shop::Shop(int count, int cust_count, int Time, int buy_count, int length)
 {
 	this->count = count;
@@ -101,14 +108,14 @@ void Shop::Start_working()
 	double P0 = 1.;
 	for (int i = 1; i <= count; ++i)
 	{
-		P0 += pow(ro, i) / factor(i);
+		P0 += myPow(ro, i) / factor(i);
 	}
 	for (int i = count + 1; i < count + length; ++i)
 	{
-		P0 += pow(ro, i) / (factor(count) * pow(count, i - count));
+		P0 += myPow(ro, i) / (factor(count) * myPow(count, i - count));
 	}
 	P0 = 1. / P0;
-	double Prej = pow(ro, count + length) * P0 / (pow(count, length) * factor(count));
+	double Prej = myPow(ro, count + length) * P0 / (myPow(count, length) * factor(count));
 	cout << "Probability of failure: " << Prej << endl;
 	double Q = 1. - Prej;
 	cout << "Relative bandwidth: " << Q << endl;
